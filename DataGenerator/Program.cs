@@ -17,7 +17,7 @@ namespace SyntheticDataGenerator
         // SQL Server bağlantı string'inizi buraya veya appsettings.json'a koyun
         private const string ConnectionString = "Server=localhost,1433;Database=Orion;User Id=sa;Password=Ggrt190724;TrustServerCertificate=True;";
 
-        private const int TotalDocuments = 10100;   // İlk test için 20-30 yapın
+        private const int TotalDocuments = 10100;   
 
         static async Task Main(string[] args)
         {
