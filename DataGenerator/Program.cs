@@ -8,25 +8,25 @@ namespace SyntheticDataGenerator
 {
     class Program
     {
-        // ====================== KONFIGÜRASYON ======================
+    
         private const string OllamaEndpoint = "http://localhost:11434";
-        private const string LlmModel = "llama3.1:8b";           // veya llama3.2
-        private const string EmbeddingModel = "bge-m3:latest";         // 1024 boyutlu
+        private const string LlmModel = "llama3.1:8b";           
+        private const string EmbeddingModel = "bge-m3:latest";         
         private const int VectorDimension = 1024;
 
-        // SQL Server bağlantı string'inizi buraya veya appsettings.json'a koyun
+      
         private const string ConnectionString = "Server=localhost,1433;Database=Orion;User Id=sa;Password=Ggrt190724;TrustServerCertificate=True;";
 
-        private const int TotalDocuments = 10100;   // İlk test için 20-30 yapın
+        private const int TotalDocuments = 10100;   
 
         static async Task Main(string[] args)
         {
             Console.WriteLine($"🔄 {TotalDocuments} adet sentetik finansal belge üretiliyor...\n");
 
             using var httpClient = new HttpClient();
-            httpClient.Timeout = TimeSpan.FromMilliseconds(1000000);  // 10 saniye timeout
+            httpClient.Timeout = TimeSpan.FromMilliseconds(1000000);  
 
-            var topics = GetSampleTopics();   // Aşağıda tanımlı
+            var topics = GetSampleTopics();  
 
             for (int i = 0; i < topics.Count; i++)
             {
@@ -38,7 +38,7 @@ namespace SyntheticDataGenerator
                     bool titleExists = await TitleExistsAsync(topicInfo.Title);
                     if (titleExists)
                     {
-                        Console.WriteLine($"⏭️  {i + 1:D3} - Zaten var: {topicInfo.Title.Substring(0, Math.Min(70, topicInfo.Title.Length))}...");
+                        Console.WriteLine($" {i + 1:D3} - Zaten var: {topicInfo.Title.Substring(0, Math.Min(70, topicInfo.Title.Length))}...");
                         continue;
                     }
 
@@ -46,11 +46,11 @@ namespace SyntheticDataGenerator
 
                     await InsertToSqlServerAsync(doc);
 
-                    Console.WriteLine($"✅ {i + 1:D3} - {doc.Title.Substring(0, Math.Min(70, doc.Title.Length))}...");
+                    Console.WriteLine($"{i + 1:D3} - {doc.Title.Substring(0, Math.Min(70, doc.Title.Length))}...");
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"❌ Hata [{i + 1}]: {ex.Message}");
+                    Console.WriteLine($" Hata [{i + 1}]: {ex.Message}");
                 }
 
                 // Ollama'nın aşırı yüklenmemesi için kısa bekleme
@@ -60,7 +60,7 @@ namespace SyntheticDataGenerator
             Console.WriteLine("\n🎉 Tüm sentetik veri üretimi tamamlandı!");
         }
 
-        // ====================== DOKÜMAN ÜRETME ======================
+    
         private static async Task<FinancialDocument> GenerateDocumentAsync(
             HttpClient httpClient,
             TopicInfo topic)
@@ -93,7 +93,7 @@ namespace SyntheticDataGenerator
     Sonunda mutlaka SPK uyarısı koy.
     """;
 
-            // İçerik üret - Ollama API'ye çağrı
+       
             var chatRequest = new
             {
                 model = LlmModel,
